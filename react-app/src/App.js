@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import Counter from './components/Counter';
+import EventPractice from './components/EventPractice';
+import IterationSample from './components/IterationSample';
+import Jsx, { a } from './components/Jsx';
+import Parent from './components/Parent';
+import Say from './components/Say';
+// import MyComponent from './components/MyComponent';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        ㅁㄴㅇㄹㅁㅇㄴㄹ
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Jsx />
+      <Parent />
+      <Counter />
+      <Say />
+      <EventPractice />
+      <IterationSample />
+    </>
   );
 }
 
