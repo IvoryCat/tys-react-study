@@ -1,19 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 /* 
-1. input에 입력된 값을 배열에 추가
-  1. 추가버튼을 누르면 input에 입력된 값 alert
-    1. useState 변수 text 선언
-    2. input이 onChange될 때 e.target.value를 set함수에 넣기
-    3. button이 onClick될 때 text값 aleart
-2. 배열에 text추가 화면에 반영
-  1. names배열 useState선언
-  2. handleClick에서
-    - newNames선언: 기존 names배열에 text가 추가돈 새로운 배열 선언(펼침연산자 이용).
-    - setNames에 newNames 넣기
-    - 새로운 배열을 names로 교체
-2. 배열에서 제거 
-  - 더블클릭하면 아이템의 id값을 alert
+useRef를 사용하여 
+<IterationSample />의 nextId를 useRef로 교체
+
+1. nextId를 useRef로 선언
+2. nextId사용할 때, 바꿀때 nextId.current로 접근
 */
 
 const defaultNames = [
@@ -42,18 +34,19 @@ const defaultNames = [
 const IterationSample = () => {
   const [text, setText] = useState('');
   const [names, setNames] = useState(defaultNames);
-  const [nextId, setNextId] = useState(defaultNames.length + 1);
+  const nextId = useRef(defaultNames.length + 1);
 
   // let nextId = 5; //렌더링 되면서 다시 5가 된다.
   const handleClick = () => {
     if (!text) {
       return;
     }
-    const newNames = [...names, { id: nextId, text }];
+    const newNames = [...names, { id: nextId.current, text }];
     console.log(text);
     setNames(newNames);
     setText('');
-    setNextId(nextId + 1);
+    // setNextId(nextId.current + 1);
+    nextId.current += 1;
   };
 
   const handleDelete = (deleteId) => {
@@ -64,7 +57,11 @@ const IterationSample = () => {
 
   return (
     <div>
-      <input onChange={(e) => setText(e.target.value)} value={text} />
+      <input
+        onChange={(e) => setText(e.target.value)}
+        value={text}
+        ref={nextId}
+      />
       <button onClick={handleClick}>추가</button>
       <ul>
         {names.map((name) => (
