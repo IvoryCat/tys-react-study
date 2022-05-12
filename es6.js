@@ -1,5 +1,3 @@
-// var let const
-
 /* 
 1. 유효범위(scope)
 var : 함수단위 scope
