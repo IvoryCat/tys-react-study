@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
+import Form from './Form';
 import Item from './Item';
 
 /*
@@ -14,17 +15,21 @@ import Item from './Item';
   4. 삭제버튼 누르면 id와 받아와서 filter함수로 id 일치하는 아이템 제외
 */
 
+/* 
+체크여부 data 저장
+- item에 isDone: true
+- <Item/>의 checkbox checked 값을 data의 isDone과 연결
+- 아이템이 추가되면 기본적으로 선택되어서 추가됨. 
+*/
+
 const Todo = () => {
   const [list, setList] = useState([]);
-  const [text, setText] = useState('');
   const nextId = useRef(1);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleAdd = (text) => {
     // 텍스트를 리스트에 추가하는 코드
-    const nextList = [...list, { id: nextId.current, text }];
+    const nextList = [...list, { id: nextId.current, text, isDone: false }];
     setList(nextList);
-    setText('');
     nextId.current++;
   };
 
@@ -33,18 +38,42 @@ const Todo = () => {
     setList(nextList);
   };
 
+  const handleChecked = (id) => {
+    /* 
+    id로 바꿀 item 찾아서 isDone 반대로 바꿔주기 
+
+    Refactoring
+    1. 부정조건 -> 긍정
+    2. 삼항연산자로 바꾸기
+    */
+
+    const newList = list.map((item) => {
+      //   if (item.id !== id) {
+      //     return item;
+      //   } else {
+      //     const newItem = { ...item, isDone: !item.isDone };
+      //     return newItem;
+      //   }
+      return item.id === id ? { ...item, isDone: !item.isDone } : item;
+    });
+
+    setList(newList);
+  };
+
   return (
     <Layout>
       <Container>
         <Title>일정 관리</Title>
-        <Form onSubmit={handleSubmit}>
-          <InputText onChange={(e) => setText(e.target.value)} value={text} />
-          <BtnSubmit>추가</BtnSubmit>
-        </Form>
+        <Form onAdd={handleAdd} />
         <Body>
           <List>
-            {list.map((item, i) => (
-              <Item data={item} onDelete={handleDelete} />
+            {list.map((item) => (
+              <Item
+                key={item.id}
+                data={item}
+                onDelete={handleDelete}
+                onChecked={handleChecked}
+              />
             ))}
           </List>
         </Body>
@@ -71,16 +100,6 @@ const Title = styled.div`
   color: #ffffff;
   padding: 10px;
 `;
-
-const Form = styled.form`
-  display: flex;
-`;
-
-const InputText = styled.input`
-  flex: 1;
-`;
-
-const BtnSubmit = styled.button``;
 
 const Body = styled.div`
   background: #ffffff;
