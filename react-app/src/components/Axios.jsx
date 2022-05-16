@@ -1,8 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Axios = () => {
   const [data, setData] = useState(null);
+
+  // onClick 없이 axios를 실행시키고 싶을때
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     const response = await axios.get(
+  //       'https://jsonplaceholder.typicode.com/todos/1'
+  //     );
+  //     setData(response.data);
+  //   };
+  // }, []);
+
   const onClick = () => {
     axios
       .get('https://jsonplaceholder.typicode.com/todos/1')
