@@ -15,6 +15,7 @@ import Say from './components/Say';
 import StyledComponent from './components/StyledComponent';
 import Todo from './components/Todo';
 // import MyComponent from './components/MyComponent';
+import Axios from './components/Axios';
 
 function App() {
   return (
@@ -32,7 +33,8 @@ function App() {
       {/* <InputFile /> */}
       {/* <InfoCustomHook /> */}
       {/* <StyledComponent /> */}
-      <Todo />
+      {/* <Todo /> */}
+      <Axios />
     </>
   );
 }
