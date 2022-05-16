@@ -16,6 +16,7 @@ import StyledComponent from './components/StyledComponent';
 import Todo from './components/Todo';
 // import MyComponent from './components/MyComponent';
 import Axios from './components/Axios';
+import Bootstrap from './components/Bootstrap';
 
 function App() {
   return (
@@ -34,7 +35,8 @@ function App() {
       {/* <InfoCustomHook /> */}
       {/* <StyledComponent /> */}
       {/* <Todo /> */}
-      <Axios />
+      {/* <Axios /> */}
+      <Bootstrap />
     </>
   );
 }
