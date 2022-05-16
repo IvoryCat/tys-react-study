@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
+import Item from './Item';
 
 /*
 1. 리스트에 추가하기
@@ -43,15 +44,7 @@ const Todo = () => {
         <Body>
           <List>
             {list.map((item, i) => (
-              <Item key={item.id}>
-                <label>
-                  <input type="checkbox" />
-                  <Content>{item.text}</Content>
-                </label>
-                <BtnDelete onClick={() => handleDelete(item.id)}>
-                  삭제
-                </BtnDelete>
-              </Item>
+              <Item data={item} onDelete={handleDelete} />
             ))}
           </List>
         </Body>
@@ -99,18 +92,5 @@ const List = styled.ul`
   padding: 0;
   margin: 0;
 `;
-
-const Item = styled.li`
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
-  & + & {
-    border-top: 1px solid #efefef;
-  }
-`;
-
-const Content = styled.span``;
-
-const BtnDelete = styled.button``;
 
 export default Todo;
