@@ -1,21 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const Dropdown = () => {
   const [isShow, setIsShow] = useState(false);
 
+  const buttonEl = useRef(null);
+
+  useEffect(() => {
+    const onClick = (e) => {
+      // 클릭한게 버튼이 아닐때만 false로 만들어야 한다.
+      console.log('target', e.target);
+      console.log('button', buttonEl.current);
+
+      if (e.target !== buttonEl.current) {
+        setIsShow(false);
+      }
+    };
+    document.body.addEventListener('click', onClick);
+    return () => {
+      document.body.removeEventListener('click', onClick);
+    };
+  }, []);
+
   return (
     <>
       <Container>
-        <Button onClick={() => setIsShow(!isShow)}>Dropdown Button</Button>
-        {isShow && (
-          <Menu>
-            <Item>Item #1</Item>
-            <Item>Item #2</Item>
-            <Item>Item #3</Item>
-            <Item>Item #4</Item>
-          </Menu>
-        )}
+        <Button ref={buttonEl} onClick={() => setIsShow(!isShow)}>
+          Dropdown Button
+        </Button>
+
+        <Menu isActive={isShow}>
+          <Item>Item #1</Item>
+          <Item>Item #2</Item>
+          <Item>Item #3</Item>
+          <Item>Item #4</Item>
+        </Menu>
       </Container>
     </>
   );
@@ -47,8 +66,7 @@ const Menu = styled.ul`
   border: 1px solid #ddd;
   border-radius: 4px;
   width: 150px;
-  /* display: ${({ isShow }) => !isShow && 'none'}; 조건부 렌더링일때 필요없음
-    */
+  display: ${({ isActive }) => !isActive && 'none'};
 `;
 
 const Item = styled.li`

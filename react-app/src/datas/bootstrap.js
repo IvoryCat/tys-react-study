@@ -16,3 +16,21 @@ export const accordionData = [
     content: `The Latin scholar H. Rackham translated the above in 1914: De Finibus`,
   },
 ];
+
+export const carouselData = [
+  {
+    id: 11,
+    image:
+      'https://cdn.pixabay.com/photo/2019/08/01/12/36/illustration-4377408_960_720.png',
+  },
+  {
+    id: 12,
+    image:
+      'https://cdn.pixabay.com/photo/2016/12/21/07/43/korea-1922376_960_720.jpg',
+  },
+  {
+    id: 13,
+    image:
+      'https://img.jjang0u.com/data3/chalkadak/1017/201506/19/143467701814651.jpg',
+  },
+];
