@@ -1,7 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { getMovies } from '../../apis';
+import MovieList from '../templates/Movie/List';
+import SearchForm from '../templates/Movie/SearchForm';
+
 //LeILUMLfB7_sZSmXsstj;
 //H_vgRSlHuk;
 //X-Naver-Client-Id: {애플리케이션 등록 시 발급받은 client id 값}" \
@@ -26,72 +27,63 @@ CORS(Cross-Origin Resource Sharing) 에러
 */
 
 const Movie = () => {
-  const [list, setList] = useState([]);
-  const [movie, setMovie] = useState('');
+  // useState가 계속 많아지므로 여러 변수를 parmas로 한꺼번에 관리하기
+  const [params, setParams] = useState({
+    query: '',
+    country: 'ALL',
+  });
+  // const [query, setQuery] = useState('');
+  // const [country, setCountry] = useState('ALL');
 
-  // useEffect(() => {
-  //   refreshList();
-  // }, []);
+  // 비구조화 할당
+  const { query, country } = params;
+
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    refreshList();
+  }, [params]);
 
   const refreshList = async () => {
-    const { items } = await getMovies(movie);
+    if (!query) return;
+
+    /* All일 때 country 제거하는 방법 1
+    const params = {
+      query: movie,
+      country: country,
+    };
+    if (country === 'ALL') {
+      delete params.country;
+    } 
+    */
+
+    //All일 때 country 제거하는 방법 2
+    const params = {
+      query: query, //생략가능
+    };
+
+    if (country !== 'ALL') {
+      params.country = country;
+    }
+
+    const { items } = await getMovies(params);
     setList(items);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    refreshList();
-    // setQuery(query);
+  // handleChange({ name: 'query', value: 'spiderman' });
+  // handleChange({ name: 'query', value: 'spiderman' });
+  const handleChange = ({ name, value }) => {
+    const newParams = { ...params, [name]: value };
+    setParams(newParams);
   };
 
   return (
     <>
       <h1>영화</h1>
-      <Form onSubmit={handleSubmit}>
-        <InputText value={movie} onChange={(e) => setMovie(e.target.value)} />
-        <BtnSubmit>검색</BtnSubmit>
-      </Form>
-      <List>
-        {list.map(({ link, image, title }) => (
-          <Item key={link}>
-            <a href={link} target="_blank" rel="noreferrer">
-              <Thumbnail src={image} />
-              <Title dangerouslySetInnerHTML={{ __html: title }} />
-            </a>
-          </Item>
-        ))}
-      </List>
+      <SearchForm onChange={handleChange} />
+      <MovieList data={list} />
     </>
   );
 };
-
-const Form = styled.form`
-  display: flex;
-`;
-
-const InputText = styled.input`
-  flex: 1;
-`;
-
-const BtnSubmit = styled.button`
-  margin-left: 10px;
-`;
-
-const List = styled.ul`
-  padding: 20px;
-  margin: 0;
-  list-style: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
-`;
-
-const Item = styled.li``;
-
-const Thumbnail = styled.img`
-  width: 100%;
-`;
-
-const Title = styled.p``;
 
 export default Movie;
