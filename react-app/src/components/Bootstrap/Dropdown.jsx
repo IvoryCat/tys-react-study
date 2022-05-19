@@ -16,7 +16,9 @@ const Dropdown = () => {
         setIsShow(false);
       }
     };
+
     document.body.addEventListener('click', onClick);
+    
     return () => {
       document.body.removeEventListener('click', onClick);
     };
@@ -57,6 +59,7 @@ const Button = styled.button`
 
 const Menu = styled.ul`
   position: absolute;
+  z-index: 10; // 드롭다운 메뉴가 그림 뒤로 가지 않게 하기 위해.
   top: 45px;
   background: #fff;
   margin: 0;

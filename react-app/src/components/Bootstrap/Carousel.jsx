@@ -6,6 +6,8 @@ const Carousel = ({ data }) => {
 
   const handleClick = (i) => {
     let nextIndex = activeIndex + i;
+
+    // index가 넘어가면 제일 앞으로
     const lastIndex = data.length - 1;
     if (nextIndex < 0) {
       nextIndex = lastIndex;
